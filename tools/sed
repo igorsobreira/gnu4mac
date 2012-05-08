@@ -3,15 +3,6 @@
 URL=http://ftp.gnu.org/gnu/sed/sed-4.2.tar.gz
 
 function install_sed {
-    local compressed_package_name=$(basename ${URL})
-    local package_name=$(echo "${compressed_package_name}" | sed 's/.tar.gz//')
-
-    (
-        cd ${TMP_DIR}
-        curl -O ${URL}
-        tar xzf $compressed_package_name
-        cd ${package_name}
-        ./configure --prefix=${INSTALL_PREFIX} && make && make install
-    )
+    download_and_install ${URL}
 }
 

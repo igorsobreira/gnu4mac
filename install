@@ -7,16 +7,23 @@ TOOLS=$(ls ${TOOLS_DIR})
 
 TMP_DIR=/tmp
 
+. lib/helpers.sh
+
 function install_all {
 
     create_install_prefix
 
-    for tool in $TOOLS; do
+    if [ -z $INSTALL_TOOLS ]; then
+        local tools_to_install=${TOOLS}
+    else
+        local tools_to_install=$(echo "${INSTALL_TOOLS}" | sed 's/,/ /')
+    fi
+
+    for tool in ${tools_to_install}; do
         _log_notice "Installing ${tool}"
         . ${TOOLS_DIR}/${tool}
         "install_${tool}"
         _log_notice "${tool} installed"
-        echo
     done
 
     _log_notice "All tools installed. You may want to add ${INSTALL_PREFIX}/bin to your \$PATH"

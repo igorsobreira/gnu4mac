@@ -1,0 +1,7 @@
+#!/bin/bash
+
+URL=http://ftp.gnu.org/gnu/tar/tar-latest.tar.gz
+
+function install_tar {
+    download_and_install ${URL}
+}
