@@ -1,0 +1,42 @@
+#!/bin/bash
+
+INSTALL_PREFIX=/opt/gnu
+
+TOOLS_DIR=./tools
+TOOLS=$(ls ${TOOLS_DIR})
+
+TMP_DIR=/tmp
+
+function install_all {
+
+    create_install_prefix
+
+    for tool in $TOOLS; do
+        _log_notice "Installing ${tool}"
+        . ${TOOLS_DIR}/${tool}
+        "install_${tool}"
+        _log_notice "${tool} installed"
+        echo
+    done
+
+    _log_notice "All tools installed. You may want to add ${INSTALL_PREFIX}/bin to your \$PATH"
+}
+
+function create_install_prefix {
+    mkdir -p ${INSTALL_PREFIX}
+}
+
+
+function _log_notice {
+    echo -e "\033[32m $1 \033[0m"
+}
+function _log_error {
+    echo -e "\033[31m $1 \033[0m" >&2
+    exit 1
+}
+
+if [ -z $1 ]; then
+    install_all
+else
+    $@
+fi
